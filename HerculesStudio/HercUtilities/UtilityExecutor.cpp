@@ -76,7 +76,7 @@ int UtilityExecutor::run(const std::string & pCommand, const std::string& pPath,
         mProcess->setWorkingDirectory(workingDirectory);
     hOutDebug(3, mProcess->workingDirectory().toStdString());
     mProcess->start(program,arguments);
-    Q_PID pid = mProcess->pid();
+    auto pid = mProcess->processId();
 
     if (pid != 0)
         return 0;

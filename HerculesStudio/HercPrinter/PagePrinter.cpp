@@ -82,7 +82,8 @@ void PdfPrinter::setValues(bool eject)
     mLinesPerPage = mPaperHeight * mLinesPerInch;
 
     if (eject) mPdf->newPage();
-    mPdf->setPageSizeMM(QSize(mPaperWidth*25.4L, mPaperHeight*25.4L));
+    auto s = QSizeF(mPaperWidth, mPaperHeight);
+    mPdf->setPageSize(QPageSize(s, QPageSize::Inch));
     mWidthInPixels = mPdf->width();
     mHeightInPixels = mPdf->height();
     mLogicalDpiX = mPdf->logicalDpiX();

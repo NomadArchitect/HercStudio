@@ -12,6 +12,8 @@
 #include <QToolTip>
 #include <QPainter>
 #include <QMessageBox>
+#include <QRegExp>
+#include <QRegularExpressionValidator>
 
 #include <sstream>
 
@@ -112,8 +114,8 @@ StationeryDialog::StationeryDialog(QWidget *parent, const QString &item) :
     }
     ui->barsColorComboBox->addItem("Custom");
 
-    QRegExp validation("^#[A-Fa-f0-9]{6}$");
-    QRegExpValidator *validator = new QRegExpValidator(validation);
+    QRegularExpression validation("^#[A-Fa-f0-9]{6}$");
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(validation);
     ui->customColor->setValidator(validator);
 
     mTopMarginSpinBox = new InchesSpinBox(ui->paperTab);
