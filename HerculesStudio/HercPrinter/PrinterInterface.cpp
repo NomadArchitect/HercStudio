@@ -112,7 +112,7 @@ void GenericPagePrinter::preparePage(bool eject)
         logoPainter->setFont(QFont("Verdana", 110));
         logoPainter->setPen(QColor(mBarsColor[0], mBarsColor[1], mBarsColor[2]));
         logoPainter->drawText(0, logoPainter->fontMetrics().height() , logo);
-        mLogoWidth = logoPainter->fontMetrics().width(logo);
+        mLogoWidth = logoPainter->fontMetrics().maxWidth();
         mLogoHeight = logoPainter->fontMetrics().height();
         logoPainter->end();
     }

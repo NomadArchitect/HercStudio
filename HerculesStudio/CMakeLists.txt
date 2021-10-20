@@ -19,6 +19,8 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Network REQUIRED)
 
+add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
+
 # Input
 include_directories(HercConfiguration HercStudio HercPrinter HercUtilities ui /usr/include/x86_64-linux-gnu/qt5/QtGui /usr/include/x86_64-linux-gnu/qt5/QtWidgets)
 

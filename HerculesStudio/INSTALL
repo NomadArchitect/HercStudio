@@ -9,9 +9,9 @@ If you prefer, you can use the pre-compiled binaries available from http://sourc
    On debian/ubuntu do: sudo apt-get install build-essential 
    On RedHat do (as root): yum groupinstall "Development Tools"
 
-   In addition, you should have the Qt development framework from a release above 4.4.2. Your distribution should have this package ready. 
-   On debian/ubuntu do: sudo apt-get install libqt-dev (note: sometimes called libqt4-dev)
-   On RedHat do (as root): yum install libqt-dev (note: sometimes called libqt4-dev)
+   In addition, you should have the Qt development framework from a release above 5.0.0. Your distribution should have this package ready. 
+   On debian/ubuntu do: sudo apt-get install libqt-dev (note: sometimes called libqt5-dev)
+   On RedHat do (as root): yum install libqt-dev (note: sometimes called libqt5-dev)
 
 2. Enter the top hercstudio directory:
     $ cd hercstudio
