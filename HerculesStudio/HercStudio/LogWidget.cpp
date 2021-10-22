@@ -117,7 +117,7 @@ void PlainLogWidget::append(const QByteArray & text)
 	}
     int len = qstrlen(s)-1;
     if (s[len] == '\n') s[len] = '\0';
-    QTextEdit::append(QByteArray(mTimeStamp) + s.left(len));
+    QTextEdit::append(QByteArray(mTimeStamp) + s.left(len+1));
 	setTextColor(keepC);
 	if (QTextEdit::document()->blockCount()%mLogFileLines == 0)
 	{

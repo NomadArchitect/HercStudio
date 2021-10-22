@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.1.0)
 
 project(HercStudio VERSION 1.0.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -15,14 +16,15 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Network REQUIRED)
+find_package(Qt6 COMPONENTS Widgets REQUIRED)
+find_package(Qt6Core REQUIRED)
+find_package(Qt6Network REQUIRED)
+find_package(Qt6 COMPONENTS Core5Compat REQUIRED)
 
 add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 
 # Input
-include_directories(HercConfiguration HercStudio HercPrinter HercUtilities ui /usr/include/x86_64-linux-gnu/qt5/QtGui /usr/include/x86_64-linux-gnu/qt5/QtWidgets)
+include_directories(HercConfiguration HercStudio HercPrinter HercUtilities ui /usr/include/qt6/QtGui /usr/include/qt6/QtWidgets /usr/include/qt6/QtNetwork /usr/include/qt6/QtCore5Compat)
 
 set(SOURCES 
          HercConfiguration/CardReaderProperties.ui
@@ -157,7 +159,7 @@ set(SOURCES
 )	
 
 add_executable(HerculesStudio ${SOURCES} )
-qt5_use_modules(HerculesStudio Core Network) # This macro depends from Qt version
-target_link_libraries(HerculesStudio Qt5::Widgets)
+#qt6_use_modules(HerculesStudio Core Network) # This macro depends from Qt version
+target_link_libraries(HerculesStudio PUBLIC Qt6::Widgets PUBLIC Qt6::Network PUBLIC Qt6::Core5Compat PUBLIC Qt6::Core5Compat)
 
 

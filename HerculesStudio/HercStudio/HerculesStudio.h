@@ -32,7 +32,7 @@
 #ifndef HS_BUILD_ID
 #define HS_BUILD_ID "Unknown"
 #endif
-#define HERCSTUDIO_VERSION "Version: 1.5.0"
+#define HERCSTUDIO_VERSION "Version: 1.6.0"
 #define HERCSTUDIO_REVISION "$Revision$"
 #define hDEBUG 0
 #define UNISTD_INC
