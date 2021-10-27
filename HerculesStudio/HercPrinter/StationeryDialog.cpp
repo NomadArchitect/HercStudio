@@ -142,14 +142,14 @@ StationeryDialog::StationeryDialog(QWidget *parent, const QString &item) :
     }
     populate();
 
-    connect(ui->stationeryNameComboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(stationeryNameChanged(QString)));
+    connect(ui->stationeryNameComboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(stationeryNameChanged(QString)));
     connect(ui->stationeryNameComboBox, SIGNAL(editTextChanged(QString)), this, SLOT(stationeryNameEdited(QString)));
     connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(cancelClicked()));
-    connect(ui->paperSizeComboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(paperSizeChanged(QString)));
+    connect(ui->paperSizeComboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(paperSizeChanged(QString)));
     connect(ui->inchesRadioButton, SIGNAL(toggled(bool)), this, SLOT(inchesMm(bool)));
     connect(ui->landscapeRadioButton, SIGNAL(toggled(bool)), this, SLOT(landscape(bool)));
-    connect(ui->barsColorComboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(barsColorChanged(QString)));
+    connect(ui->barsColorComboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(barsColorChanged(QString)));
     connect(ui->decorationCheckBox, SIGNAL(stateChanged(int)), this, SLOT(decorationToggeled()));
     connect(ui->feedHolesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(feedHolesToggeled()));
     connect(ui->customColor, SIGNAL(textChanged(QString)), this, SLOT(customColorChanged()));

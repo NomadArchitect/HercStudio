@@ -18,6 +18,7 @@ GenericPagePrinter::GenericPagePrinter(StationeryPtr &stationery, float scaling)
     mHeightInPixels = 4000;
     mWidthInPixels = 1200;
     mLeftMargin = 0;
+    mBottomMargin = 0;
     mLogicalDpiX = mLogicalDpiY = 1200;
 }
 
