@@ -118,7 +118,7 @@ void DevicesWidget::menuProperties()
 	{
 		mProp = GenericDeviceProperties::classFactory(*mCandidateLine, this);
 	}
-	catch (hsException e)
+	catch (hsException & e)
 	{
 		std::string msg = e.what();
 		QMessageBox::critical(this, "Invalid Device Line", msg.c_str() , QMessageBox::Ok);

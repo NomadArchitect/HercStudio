@@ -9,6 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_CXX_FLAGS "-Wall")
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS HercConfiguration HercStudio HercPrinter HercUtilities)
 

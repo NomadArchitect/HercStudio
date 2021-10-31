@@ -26,7 +26,7 @@
 #include "Configuration.h"
 #include "HerculesStudio.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <iostream>
 #include <sstream>
@@ -378,13 +378,14 @@ void ConfigurationEditor::CONKPALV(Ui::ConfigurationClass *, const ConfigLine * 
 	if (dir == toScreen)
 	{
 		// just parse (we do not yet have a screen display for this parameter
-		QRegExp exp("\\s+\\((\\d*),(\\d*),(\\d*)\\)");
+		QRegularExpression exp("\\s+\\((\\d*),(\\d*),(\\d*)\\)");
 
 		QString line(configLine->getLine().substr(8).c_str());
-		if (exp.indexIn(line) == -1) 
-			configLine->setInError(8);
-		else
+		QRegularExpressionMatch match = exp.match(line);
+		if (match.hasMatch()) 
 			configLine->setNoError();
+		else
+			configLine->setInError(8);
 	}
 }
 
