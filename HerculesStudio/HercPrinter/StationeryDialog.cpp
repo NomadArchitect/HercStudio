@@ -12,7 +12,7 @@
 #include <QToolTip>
 #include <QPainter>
 #include <QMessageBox>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
 #include <sstream>

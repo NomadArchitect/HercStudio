@@ -5,7 +5,6 @@
 TEMPLATE = app
 QT       += widgets
 QT       += network
-QT       += core5compat
 TARGET = HerculesStudio
 INCLUDEPATH +=  \
                  HercStudio \

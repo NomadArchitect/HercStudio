@@ -20,7 +20,6 @@ endif()
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 find_package(Qt6Core REQUIRED)
 find_package(Qt6Network REQUIRED)
-find_package(Qt6 COMPONENTS Core5Compat REQUIRED)
 
 add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 
@@ -161,6 +160,6 @@ set(SOURCES
 
 add_executable(HerculesStudio ${SOURCES} )
 #qt6_use_modules(HerculesStudio Core Network) # This macro depends from Qt version
-target_link_libraries(HerculesStudio PUBLIC Qt6::Widgets PUBLIC Qt6::Network PUBLIC Qt6::Core5Compat PUBLIC Qt6::Core5Compat)
+target_link_libraries(HerculesStudio PUBLIC Qt6::Widgets PUBLIC Qt6::Network)
 
 
