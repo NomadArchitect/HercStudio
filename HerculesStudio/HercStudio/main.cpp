@@ -38,7 +38,14 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-    QApplication a(argc, argv);
+    QApplication *b = new QApplication(argc, argv);
+	printf("%f\n", b->primaryScreen()->physicalDotsPerInch());
+	if (b->primaryScreen()->physicalDotsPerInch() > 100) {
+		printf("setting\n");
+		qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
+	}
+	delete b;
+	QApplication a(argc, argv);
     a.setAttribute(Qt::AA_DontShowIconsInMenus, false);
 
     MainWindow w;

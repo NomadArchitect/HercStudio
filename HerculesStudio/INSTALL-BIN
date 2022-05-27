@@ -1,8 +1,8 @@
 debian:
 	prerequisits:
-		libqtcore4
-		libqtgui4
-	aptitude install libqtcore4 libqtgui4
+		libqtcore5
+		libqtgui5
+	aptitude install libqtcore5  libqtgui5
 		
 Fedora:
 	prerequisites:
