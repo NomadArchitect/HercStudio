@@ -6,21 +6,24 @@ If you prefer, you can use the pre-compiled binaries available from http://sourc
 
 1. Prerequisites: you should already have a c++ compiler and the rest of the tool chain. It is recommended to install
    all the necessary tools using the distribution-supplied packge: 
-   On debian/ubuntu do: sudo apt-get install build-essential 
+   On debian/ubuntu do: sudo apt-get install build-essential cmake git
    On RedHat do (as root): yum groupinstall "Development Tools"
 
    In addition, you should have the Qt development framework from a release above 6.2.0. Your distribution should have this package ready. 
-   On debian/ubuntu do: sudo apt-get install libqt-dev (note: sometimes called libqt6-dev)
+   On debian/ubuntu do: sudo apt-get install qt6-base-dev
    On RedHat do (as root): yum install libqt-dev (note: sometimes called libqt6-dev)
 
-2. Enter the top hercstudio directory:
+2. clone the repository:
+   git clone git clone git://git.code.sf.net/p/hercstudio/git-code hercstudio
+
+3. Enter the top hercstudio directory:
     $ cd hercstudio
 
-3. Run Qt's Makefile generation command:
-    $ qmake
+4. Run cmake:
+    $ cmake -B build .
 
 4. Start the build:
-    $ make
+    $ cd build && make
 
 5. Install Hercules Studio (as root):
     $ make install 
