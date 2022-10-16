@@ -38,11 +38,9 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-    QApplication *b = new QApplication(argc, argv);
-	printf("%f\n", b->primaryScreen()->physicalDotsPerInch());
+	QApplication *b = new QApplication(argc, argv);
 	if (b->primaryScreen()->physicalDotsPerInch() > 100) {
-		printf("setting\n");
-		qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
+		//qputenv("QT_SCALE_FACTOR", "1.4");
 	}
 	delete b;
 	QApplication a(argc, argv);

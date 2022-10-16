@@ -162,4 +162,7 @@ add_executable(HerculesStudio ${SOURCES} )
 #qt6_use_modules(HerculesStudio Core Network) # This macro depends from Qt version
 target_link_libraries(HerculesStudio PUBLIC Qt6::Widgets PUBLIC Qt6::Network)
 
+include(GNUInstallDirs)
+install (PROGRAMS HerculesStudio
+ DESTINATION ${CMAKE_INSTALL_BINDIR})
 
