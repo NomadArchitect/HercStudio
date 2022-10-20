@@ -159,10 +159,25 @@ set(SOURCES
 )	
 
 add_executable(HerculesStudio ${SOURCES} )
-#qt6_use_modules(HerculesStudio Core Network) # This macro depends from Qt version
 target_link_libraries(HerculesStudio PUBLIC Qt6::Widgets PUBLIC Qt6::Network)
 
 include(GNUInstallDirs)
-install (PROGRAMS HerculesStudio
+install (PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/HerculesStudio
  DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+add_custom_target(deb
+            DEPENDS package)
+
+if (TARGET deb)
+      install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/HerculesStudio
+      COMPONENT linapp
+      DESTINATION "/usr/local/bin/"  
+      )
+      set(CPACK_GENERATOR "DEB")
+      set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Jacob Dekel") 
+      set(CPACK_PACKAGE_VERSION_MAJOR "1")
+      set(CPACK_PACKAGE_VERSION_MINOR "6")
+      set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt6widgets6, libqt6network6, qt6-wayland, qt6-qpa-plugins")
+endif()
+INCLUDE(CPack)
 
