@@ -240,7 +240,7 @@ void DasdInit::newDevType()
 
 void DasdInit::browseClicked()
 {
-    QString s = QFileDialog::getExistingDirectory(this,"Browse for dasd path",ui.path->text());
+    QString s = QFileDialog::getExistingDirectory(this,"Browse for dasd path",ui.path->text(), QFileDialog::DontUseNativeDialog);
     ui.path->setText(s);
 }
 

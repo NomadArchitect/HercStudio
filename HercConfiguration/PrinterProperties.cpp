@@ -108,7 +108,9 @@ void PrinterProperties::fileNameBrowse()
     std::string s = QFileDialog::getOpenFileName(this,
                 "Set Printer File",
                 "~/",
-                tr("All files(*)")).toUtf8().data();
+                tr("All files(*)"),
+                nullptr, 
+                QFileDialog::DontUseNativeDialog).toUtf8().data();
     ui.filename->setText(s.c_str());
 }
 

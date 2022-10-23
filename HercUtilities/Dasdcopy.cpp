@@ -146,7 +146,7 @@ void Dasdcopy::exitClicked()
 
 void Dasdcopy::browseFileClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for input disk",ui.infile->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for input disk",ui.infile->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.infile->setText(s);
     if (ui.path->text().isEmpty())
     {
@@ -160,13 +160,13 @@ void Dasdcopy::browseFileClicked()
 
 void Dasdcopy::browseShadowClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for input disk",ui.shadowFile->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for input disk",ui.shadowFile->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.shadowFile->setText(s);
 }
 
 void Dasdcopy::browseOutClicked()
 {
-    QString s = QFileDialog::getExistingDirectory(this,"Browse for output file path",ui.path->text());
+    QString s = QFileDialog::getExistingDirectory(this,"Browse for output file path",ui.path->text(), QFileDialog::DontUseNativeDialog);
     ui.path->setText(s);
 }
 

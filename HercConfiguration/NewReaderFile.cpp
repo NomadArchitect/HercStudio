@@ -71,7 +71,9 @@ void NewReaderFile::doBrowse()
     std::string s = QFileDialog::getOpenFileName(this,
             "Locate reader file(s)",
             Preferences::getInstance().configDir().c_str(),
-            tr("All files(*)")).toUtf8().data();
+            tr("All files(*)"),
+            nullptr, 
+            QFileDialog::DontUseNativeDialog).toUtf8().data();
     mFileName.setText(s.c_str());
 }
 

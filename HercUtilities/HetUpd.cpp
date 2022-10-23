@@ -85,14 +85,14 @@ void HetUpd::exitClicked()
 
 void HetUpd::browseInFileClicked()
 {
-	QString s = QFileDialog::getOpenFileName(this,"Browse for Input File",ui.infile->text());
+	QString s = QFileDialog::getOpenFileName(this,"Browse for Input File",ui.infile->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
 	if (s.size() > 0)
 		ui.infile->setText(s);
 }
 
 void HetUpd::browseOutFileClicked()
 {
-	QString s = QFileDialog::getOpenFileName(this,"Browse for Output File",ui.outfile->text());
+	QString s = QFileDialog::getOpenFileName(this,"Browse for Output File",ui.outfile->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
 	if (s.size() > 0)
 	{
 		QFileInfo fi(s);
@@ -103,7 +103,7 @@ void HetUpd::browseOutFileClicked()
 
 void HetUpd::browseOutDirClicked()
 {
-    QString s = QFileDialog::getExistingDirectory(this,"Browse For Output Directory",ui.outdir->text());
+    QString s = QFileDialog::getExistingDirectory(this,"Browse For Output Directory",ui.outdir->text(), QFileDialog::DontUseNativeDialog);
     if (s.size() > 0) ui.outdir->setText(s);
 }
 

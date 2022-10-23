@@ -134,7 +134,7 @@ void Dasdconv::exitClicked()
 
 void Dasdconv::browseFileClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for input disk",ui.filename->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for input disk",ui.filename->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.infile->setText(s);
     if (ui.path->text().isEmpty())
     {
@@ -147,7 +147,7 @@ void Dasdconv::browseFileClicked()
 }
 void Dasdconv::browseOutClicked()
 {
-    QString s = QFileDialog::getExistingDirectory(this,"Browse for output file path",ui.path->text());
+    QString s = QFileDialog::getExistingDirectory(this,"Browse for output file path",ui.path->text(), QFileDialog::DontUseNativeDialog);
     ui.path->setText(s);
 }
 

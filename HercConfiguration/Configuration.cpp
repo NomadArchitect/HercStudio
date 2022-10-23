@@ -319,7 +319,7 @@ void Configuration::todPrioChanged(int newValue)
 
 void Configuration::autoMountBrowsePressed()
 {
-	std::string s = QFileDialog::getExistingDirectory(this,"Browse Auto Mount Directory","").toStdString();
+	std::string s = QFileDialog::getExistingDirectory(this,"Browse Auto Mount Directory","", QFileDialog::DontUseNativeDialog).toStdString();
 	ui.autoMountDir->setText(s.c_str());
 
 }
@@ -332,7 +332,7 @@ void Configuration::httpRootBrowsePressed()
 
 void Configuration::modPathBrowsePressed()
 {
-	std::string s = QFileDialog::getExistingDirectory(this,"Browse Modules Path Directory",ui.modPathButton->text()).toStdString();
+	std::string s = QFileDialog::getExistingDirectory(this,"Browse Modules Path Directory",ui.modPathButton->text(), QFileDialog::DontUseNativeDialog).toStdString();
 	ui.modPath->setText(s.c_str());
 
 }

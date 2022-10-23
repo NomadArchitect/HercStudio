@@ -104,7 +104,7 @@ void HetInit::exitClicked()
 
 void HetInit::browseFileClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for disk to update",ui.filename->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for disk to update",ui.filename->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     if (s.size() > 0)
     {
         QFileInfo fi(s);
@@ -115,7 +115,7 @@ void HetInit::browseFileClicked()
 
 void HetInit::browseDirClicked()
 {
-    QString s = QFileDialog::getExistingDirectory(this,"Browse for disk to update",ui.directory->text());
+    QString s = QFileDialog::getExistingDirectory(this,"Browse for disk to update",ui.directory->text(), QFileDialog::DontUseNativeDialog);
     if (s.size() > 0) ui.directory->setText(s);
 }
 

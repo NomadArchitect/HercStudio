@@ -95,7 +95,7 @@ void HetMap::exitClicked()
 
 void HetMap::browseFileClicked()
 {
-	QString s = QFileDialog::getOpenFileName(this,"Browse for Input File",ui.filename->text());
+	QString s = QFileDialog::getOpenFileName(this,"Browse for Input File",ui.filename->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
 	if (s.size() > 0)
 		ui.filename->setText(s);
 }

@@ -121,13 +121,13 @@ void DasdLoad::runClicked()
 
 void DasdLoad::browseCtlClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for input file path",ui.path->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for input file path",ui.path->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.control->setText(s);
 }
 
 void DasdLoad::browseOutClicked()
 {
-    QString s = QFileDialog::getExistingDirectory(this,"Browse for output file path",ui.path->text());
+    QString s = QFileDialog::getExistingDirectory(this,"Browse for output file path",ui.path->text(), QFileDialog::DontUseNativeDialog);
     ui.path->setText(s);
 }
 

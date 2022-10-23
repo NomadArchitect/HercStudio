@@ -111,7 +111,7 @@ void PrinterDialog::dirClicked()
     dir = QFileDialog::getExistingDirectory(this,
                 tr("Spool directory"),
                 dir,
-                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks | QFileDialog::DontUseNativeDialog);
     if (dir.length() > 0) ui->spoolDirectory->setText(dir);
 }
 

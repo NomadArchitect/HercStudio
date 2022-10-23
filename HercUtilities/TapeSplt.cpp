@@ -103,7 +103,7 @@ void TapeSplt::cancelClicked()
 
 void TapeSplt::selectInputClicked()
 {
-	QString s = QFileDialog::getOpenFileName(this,"Browse for input tape file",ui.inputFile->text());
+	QString s = QFileDialog::getOpenFileName(this,"Browse for input tape file",ui.inputFile->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
 	ui.inputFile->setText(s);
 }
 

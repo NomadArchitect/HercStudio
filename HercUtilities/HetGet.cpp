@@ -115,7 +115,7 @@ void HetGet::exitClicked()
 
 void HetGet::browseInFileClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for tape to process",ui.infile->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for tape to process",ui.infile->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     if (s.size() > 0)
     {
         ui.infile->setText(s);
@@ -124,13 +124,13 @@ void HetGet::browseInFileClicked()
 
 void HetGet::browseOutDirClicked()
 {
-    QString s = QFileDialog::getExistingDirectory(this,"Browse for target output directory",ui.outdir->text());
+    QString s = QFileDialog::getExistingDirectory(this,"Browse for target output directory",ui.outdir->text(), QFileDialog::DontUseNativeDialog);
     if (s.size() > 0) ui.outdir->setText(s);
 }
 
 void HetGet::browseOutFileClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for target output file",ui.outdir->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for target output file",ui.outdir->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     if (s.size() > 0)
     {
         QFileInfo fi(s);

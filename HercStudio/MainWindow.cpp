@@ -525,7 +525,9 @@ void MainWindow::openConfig()
 	std::string s = QFileDialog::getOpenFileName(this,
             tr("Open configuration"),
             Preferences::getInstance().configDir().c_str(),
-			tr("Hercules configuration files (*.conf *.cnf);;All files(*)")).toUtf8().data();
+			tr("Hercules configuration files (*.conf *.cnf);;All files(*)"),
+			nullptr, 
+			QFileDialog::DontUseNativeDialog).toUtf8().data();
 	if (s.length() == 0)
 		return;
 
@@ -573,9 +575,9 @@ void MainWindow::saveConfigAs()
 	}
 
 	std::string s = QFileDialog::getSaveFileName(this,
-			"Save configuration",
-            Preferences::getInstance().configDir().c_str(),
-			tr("Hercules configuration files (*.conf *.cnf);;All files(*)")).toUtf8().data();
+	 		"Save configuration",
+             Preferences::getInstance().configDir().c_str(),
+	 		tr("Hercules configuration files (*.conf *.cnf);;All files(*)"), nullptr, QFileDialog::DontUseNativeDialog).toUtf8().data();
 	if (s.length() == 0)
 		return;
 	int pos = s.length()-5;

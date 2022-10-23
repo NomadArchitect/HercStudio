@@ -119,13 +119,13 @@ void Dasdcat::exitClicked()
 
 void Dasdcat::browseFileClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for disk to update",ui.filename->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for disk to update",ui.filename->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.filename->setText(s);
 }
 
 void Dasdcat::browseSfClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for shadow file",ui.shadowFile->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for shadow file",ui.shadowFile->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.shadowFile->setText(s);
 }
 

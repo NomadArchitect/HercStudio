@@ -119,7 +119,9 @@ void DasdProperties::browseClicked()
     std::string s = QFileDialog::getOpenFileName(this,
                 "Locate DASD File",
                 Preferences::getInstance().configDir().c_str(),
-                tr("All files(*)")).toUtf8().data();
+                tr("All files(*)"),
+                nullptr,
+                QFileDialog::DontUseNativeDialog).toUtf8().data();
         ui.filename->setText(s.c_str());
 }
 
@@ -128,7 +130,9 @@ void DasdProperties::browseShadowClicked()
     std::string s = QFileDialog::getOpenFileName(this,
                 "Locate Shadow DASD File",
                 Preferences::getInstance().configDir().c_str(),
-                tr("All files(*)")).toUtf8().data();
+                tr("All files(*)"),
+                nullptr,
+                QFileDialog::DontUseNativeDialog).toUtf8().data();
         ui.shadow->setText(s.c_str());
 }
 

@@ -85,7 +85,7 @@ void TapeMap::browseFileClicked()
     QString dir = ui.filename->text();
     if (dir.isEmpty())
         dir = Preferences::getInstance().configDir().c_str();
-    QString s = QFileDialog::getOpenFileName(this,"Browse for tape to map",dir);
+    QString s = QFileDialog::getOpenFileName(this,"Browse for tape to map",dir, QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.filename->setText(s);
 }
 

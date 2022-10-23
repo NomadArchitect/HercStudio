@@ -87,13 +87,13 @@ void Dasdls::runClicked()
 
 void Dasdls::browseFileClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for disk to list",ui.filename->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for disk to list",ui.filename->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.filename->setText(s);
 }
 
 void Dasdls::browseSfClicked()
 {
-    QString s = QFileDialog::getOpenFileName(this,"Browse for shadow file",ui.shadowFile->text());
+    QString s = QFileDialog::getOpenFileName(this,"Browse for shadow file",ui.shadowFile->text(), QString(), nullptr, QFileDialog::DontUseNativeDialog);
     ui.shadowFile->setText(s);
 }
 
