@@ -78,7 +78,9 @@ void Dasdls::runClicked()
     }
     std::string command = "dasdls";
 
-    execute(command, Preferences::getInstance().hercDir(), parameters);
+    if (execute(command, Preferences::getInstance().hercDir(), parameters) == false) {
+        return;
+    }
 
     connect(mErrorRunner, SIGNAL(valueChanged(int)), this, SLOT(runnerValueChanged(int)));
     connect(mErrorRunner, SIGNAL(maximumChanged(int)), this, SLOT(runnerMaximumChanged(int)));

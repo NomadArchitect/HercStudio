@@ -111,7 +111,9 @@ void DasdLoad::runClicked()
     QFileInfo fi(ui.control->text());
     hOutDebug(2, "dir: " << fi.absolutePath().toStdString());
 
-    execute(command, Preferences::getInstance().hercDir(), parameters, fi.absolutePath());
+    if (execute(command, Preferences::getInstance().hercDir(), parameters, fi.absolutePath()) == false) {
+        return;
+    }
 
     ui.progressBar->setVisible(true);
     connect(mErrorRunner, SIGNAL(valueChanged(int)), this, SLOT(runnerValueChanged(int)));

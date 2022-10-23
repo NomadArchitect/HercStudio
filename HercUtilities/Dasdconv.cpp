@@ -116,7 +116,9 @@ void Dasdconv::runClicked()
     parameters.push_back(fullPath);
     std::string command = "dasdconv";
 
-	execute(command, Preferences::getInstance().hercDir(), parameters);
+	if (execute(command, Preferences::getInstance().hercDir(), parameters)) {
+        return;
+    }
 
     connect(mRunner, SIGNAL(valueChanged(int)), this, SLOT(runnerValueChanged(int)));
     connect(mRunner, SIGNAL(maximumChanged(int)), this, SLOT(runnerMaximumChanged(int)));

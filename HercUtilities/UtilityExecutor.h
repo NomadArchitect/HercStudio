@@ -47,7 +47,7 @@ public:
     UtilityExecutor(QObject *parent=0);
     virtual ~UtilityExecutor();
 
-    int run(const std::string & command,
+    bool run(const std::string & command,
             const std::string & pPath,
             std::vector<std::string> pParameters,
             UtilityRunner * runner,

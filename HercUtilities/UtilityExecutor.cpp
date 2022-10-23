@@ -42,7 +42,7 @@ UtilityExecutor::~UtilityExecutor()
 }
 
 //TODO convert all std::string parameters to QString
-int UtilityExecutor::run(const std::string & pCommand, const std::string& pPath, std::vector<std::string> pParameters, UtilityRunner * runner,
+bool UtilityExecutor::run(const std::string & pCommand, const std::string& pPath, std::vector<std::string> pParameters, UtilityRunner * runner,
         UtilityRunner * errorRunner, const QString& workingDirectory)
 {
     QString program = pPath.c_str();
@@ -76,12 +76,14 @@ int UtilityExecutor::run(const std::string & pCommand, const std::string& pPath,
         mProcess->setWorkingDirectory(workingDirectory);
     hOutDebug(3, mProcess->workingDirectory().toStdString());
     mProcess->start(program,arguments);
+    if (mProcess->waitForStarted() == false)
+        return false;
     auto pid = mProcess->processId();
 
     if (pid != 0)
-        return 0;
+        return true;
     else
-        return -1;
+        return false;
 }
 
 bool UtilityExecutor::running()

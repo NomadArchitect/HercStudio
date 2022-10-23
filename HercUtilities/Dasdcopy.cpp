@@ -129,7 +129,9 @@ void Dasdcopy::runClicked()
     std::string command = "dasdcopy";
 
     std::string path = Preferences::getInstance().hercDir();
-    execute(command, path, parameters);
+    if (execute(command, path, parameters) == false) {
+        return;
+    }
     mFirstEndReceived = false;
 
     connect(mRunner, SIGNAL(valueChanged(int)), this, SLOT(runnerValueChanged(int)));

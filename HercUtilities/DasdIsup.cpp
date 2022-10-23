@@ -85,7 +85,9 @@ void DasdIsup::runClicked()
     std::string command = "dasdisup";
 
     ui.progressBar->setVisible(true);
-	execute(command, Preferences::getInstance().hercDir(), parameters);
+	if (execute(command, Preferences::getInstance().hercDir(), parameters) == false) {
+        return;
+    }
 
     connect(mRunner, SIGNAL(valueChanged(int)), this, SLOT(runnerValueChanged(int)));
     connect(mRunner, SIGNAL(maximumChanged(int)), this, SLOT(runnerMaximumChanged(int)));

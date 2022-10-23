@@ -103,7 +103,9 @@ void HetGet::runClicked()
 
     std::string command = "hetget";
 
-    execute(command, Preferences::getInstance().hercDir(), parameters);
+    if (execute(command, Preferences::getInstance().hercDir(), parameters) == false) {
+        return;
+    }
     ui.runButton->setText("Stop");
 }
 

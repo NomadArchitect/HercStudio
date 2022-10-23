@@ -80,7 +80,9 @@ void TapeCopy::runClicked()
     parameters.push_back(scsi.c_str());
     std::string command = "tapecopy";
 
-    execute(command, Preferences::getInstance().hercDir(), parameters);
+    if (execute(command, Preferences::getInstance().hercDir(), parameters) == false) {
+        return;
+    }
 
     ui.runButton->setText("Stop");
 }

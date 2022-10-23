@@ -83,7 +83,9 @@ void HetMap::runClicked()
 
     std::string command = "hetmap";
 
-    execute(command, Preferences::getInstance().hercDir(), parameters);
+    if (execute(command, Preferences::getInstance().hercDir(), parameters) == false) {
+        return;
+    }
     ui.runButton->setText("Stop");
 }
 

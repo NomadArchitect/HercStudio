@@ -218,7 +218,9 @@ void DasdInit::runClicked()
     std::string path = Preferences::getInstance().hercDir();
 
     ui.progressBar->setVisible(true);
-    execute(command, path, parameters);
+    if (execute(command, path, parameters) == false) {
+        return;
+    }
     connect(mRunner, SIGNAL(valueChanged(int)), this, SLOT(runnerValueChanged(int)));
     connect(mRunner, SIGNAL(maximumChanged(int)), this, SLOT(runnerMaximumChanged(int)));
     connect(mErrorRunner, SIGNAL(valueChanged(int)), this, SLOT(runnerValueChanged(int)));

@@ -107,7 +107,10 @@ void Dasdcat::runClicked()
     parameters.push_back(dsnameSpec);
     std::string command = "dasdcat";
 
-    execute(command, Preferences::getInstance().hercDir(), parameters);
+    if (execute(command, Preferences::getInstance().hercDir(), parameters) == false) {
+        return;
+    }
+
     ui.runButton->setText("Stop");
 }
 
