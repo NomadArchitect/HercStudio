@@ -13,3 +13,6 @@ HerculesStudio/HerculesStudio
 
 #Makefile(s)
 HerculesStudio/Makefile*
+
+#vscode
+.vscode*
