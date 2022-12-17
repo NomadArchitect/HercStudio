@@ -43,17 +43,19 @@ QByteArray PrinterSocket::readLine()
         return returnLine(pos);
     }
 
-    while (true)
-    {
-        waitForReadyRead(500);
-        if (bytesAvailable() > 0)
-        {
-            qint64 len = read(mBuffPos, 255);
-            if (len < 0) return "";
-            mBuffPos += len;
-            pos = nextPos();
-            if (pos != NULL) return returnLine(pos);
+    while (true) {
+        qint64 len = read(mBuffPos, 255);
+        if (len == 0) {
+            waitForReadyRead(500);
+            continue;
         }
+        if (len < 0) { // error
+            return "";
+        }
+        mBuffPos += len;
+        pos = nextPos();
+        if (pos != NULL)
+            return returnLine(pos);
     }
 }
 
@@ -69,36 +71,37 @@ PrintRunner::PrintRunner(SynchronizedQueue& queue, PrinterItemConstPtr& printerI
 
 void PrintRunner::readFromSocket()
 {
-    while((mSocket->state() == QAbstractSocket::ConnectedState && mRunning) || mSocket->bytesAvailable() > 0)
+    while((mSocket->state() == QAbstractSocket::ConnectedState && mRunning))
     {
-        mSocket->waitForReadyRead(500);
-        if (mSocket->bytesAvailable() > 0)
+        hOutDebug(0,"3")
+        bool ff = false;
+        QByteArray line = mSocket->readLine();
+        int len = line.length();
+        if (len == 0) {  // no data
+            continue; 
+        }
+        if ((line[len-1] == '\f') && (len > 1)) // in practice this is not likely to happen as all \f are preceded by \r or \n
         {
-            bool ff = false;
-            QByteArray line = mSocket->readLine();
-            int len = line.length();
-            if ((line[len-1] == '\f') && (len > 1)) // in practice this is not likely to happen as all \f are preceded by \r or \n
-            {
-                line.data()[len-1] = '\n';
-                ff = true;
-            }
+            line.data()[len-1] = '\n';
+            ff = true;
+        }
+        hOutDebug(0, "line:" <<  line.toStdString().c_str());
 
-            if ( (len>0) &&  ((line[len-1] == '\n') || (line[len-1] == '\r')) )
-                line.data()[len-1] = '\0';
+        if ( (len>0) &&  ((line[len-1] == '\n') || (line[len-1] == '\r')) )
+            line.data()[len-1] = '\0';
 
-            if (line.length() != 0)
-            {
-                hOutDebug(5,":" << line.data());
-                if (ff) mQueue.push_back("\f"); // generate eject
+        if (line.length() != 0)
+        {
+            hOutDebug(5,":" << line.data());
+            if (ff) mQueue.push_back("\f"); // generate eject
 #ifdef Q_OS_DARWIN
-                else mQueue.push_back((line));
+            else mQueue.push_back((line));
 #else
-                else mQueue.push_back(std::move(line));
+            else mQueue.push_back(std::move(line));
 #endif
-                emit newData();
-                while (mQueue.size() > mMaxQueueSize) // do not flood the queue
-                    QThread::msleep(100);
-            }
+            emit newData();
+            while (mQueue.size() > mMaxQueueSize) // do not flood the queue
+                QThread::msleep(100);
         }
     }
 }

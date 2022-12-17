@@ -56,12 +56,12 @@ void GenericPagePrinter::preparePage(bool eject)
             int barsB = mBarsColor[2];
             mPen->fillRect(mLeftMargin, i, mWidthInPixels-2*mLeftMargin, stripe, QColor(barsR, barsG, barsB));
 
-            //        if (mStationery->mDecorated)
-            //        {
-            //            mPen->setPen(QPen(QColor(barsR-0x20, barsG-0x20, barsB-0x20), penWidth));
-            //            mPen->drawLine(leftMargin,i,widthInPixels-leftMargin,i);
-            //            mPen->drawLine(leftMargin,i+stripe,widthInPixels-leftMargin,i+stripe);
-            //        }
+            if (mStationery->mDecorated)
+            {
+                mPen->setPen(QPen(QColor(barsR-0x20, barsG-0x20, barsB-0x20), penWidth));
+                mPen->drawLine(mLeftMargin,i,mWidthInPixels-mLeftMargin,i);
+                mPen->drawLine(mLeftMargin,i+stripe,mWidthInPixels-mLeftMargin,i+stripe);
+            }
         }
     }
 
