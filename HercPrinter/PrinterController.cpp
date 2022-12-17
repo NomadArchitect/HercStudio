@@ -29,7 +29,7 @@ void PrinterController::exec()
         mRunner = PrintRunnerPtr(new PrintRunner(mQueue, mPrinterItem, 132*80*2));
         connect(mRunner.data(), SIGNAL(newData()), this, SLOT(lineReceived()));
         connect(mRunner.data(), SIGNAL(connected()), this, SIGNAL(connected()));
-        connect(mRunner.data(), SIGNAL(disconnected()), this, SIGNAL(disconnected()));
+        connect(mRunner.data(), SIGNAL(disconnected()), this, SLOT(disconnected()));
         connect(mRunner.data(), SIGNAL(waiting()), this, SIGNAL(waiting()));
         connect(mRunner.data(), SIGNAL(stoppedWaiting()), this, SIGNAL(stoppedWaiting()));
     }
@@ -58,4 +58,9 @@ void PrinterController::lineReceived()
         mPrinter->print(mQueue.front());
         mQueue.pop_front();
     }
+}
+
+void PrinterController::disconnected()
+{
+    hOutDebug(0, "disconnected");
 }

@@ -33,17 +33,26 @@
 
 mk_shared_constptr(PrinterItem)
 
-class PrinterSocket : public QTcpSocket
+class PrinterBufferReader 
 {
 public:
-    PrinterSocket();
+    QTcpSocket *socket() 
+    { 
+        return mSocket;
+    }
+    PrinterBufferReader();
     QByteArray readLine();
     qint64 bytesAvailable() const;
+    void close() {
+        mRunning = false;
+    }
 private:
+    QTcpSocket* mSocket;
     QByteArray returnLine(const char *end);
     char *nextPos();
     char mBuff[2048];
     char *mBuffPos;
+    bool mRunning;
 };
 
 class PrintRunner : public Runner
@@ -60,13 +69,13 @@ private:
     PrinterItemConstPtr mPrinterItem;
     static const int MAX_LINE = 2048;
     int mMaxQueueSize;
-    QSharedPointer<PrinterSocket> mSocket;
+    QSharedPointer<PrinterBufferReader> mBufferReader;
     bool mRunning;
     char mBuff[MAX_LINE];
     int  mCurrBufLen;
 
     void waitForConnected();
-    void readFromSocket();
+    void readBuffer();
 
 
 private slots:

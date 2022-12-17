@@ -54,10 +54,10 @@ private:
 
 private slots:
     void lineReceived();
+    void disconnected();
 
 signals:
     void connected();
-    void disconnected();
     void waiting();
     void stoppedWaiting();
 };

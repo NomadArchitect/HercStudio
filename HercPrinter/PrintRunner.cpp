@@ -6,13 +6,14 @@
 #include <QtGlobal>
 #include <algorithm>
 
-PrinterSocket::PrinterSocket() :
-    QTcpSocket()
+PrinterBufferReader::PrinterBufferReader() 
 {
+    mSocket = new QTcpSocket();
     mBuffPos = mBuff;
+    mRunning = true;
 }
 
-QByteArray PrinterSocket::returnLine(const char *end)
+QByteArray PrinterBufferReader::returnLine(const char *end)
 {
     end++;
     QByteArray line(mBuff, end-mBuff);
@@ -23,7 +24,7 @@ QByteArray PrinterSocket::returnLine(const char *end)
     return line;
 }
 
-char *PrinterSocket::nextPos()
+char *PrinterBufferReader::nextPos()
 {
     char * maybeEndF = std::find(mBuff, mBuffPos, '\f');
     char * maybeEndN = std::find(mBuff, mBuffPos, '\n');
@@ -35,7 +36,7 @@ char *PrinterSocket::nextPos()
     return NULL;
 }
 
-QByteArray PrinterSocket::readLine()
+QByteArray PrinterBufferReader::readLine()
 {
     char *pos = nextPos();
     if (pos != NULL)
@@ -43,10 +44,10 @@ QByteArray PrinterSocket::readLine()
         return returnLine(pos);
     }
 
-    while (true) {
-        qint64 len = read(mBuffPos, 255);
+    while (mRunning) {
+        qint64 len = mSocket->read(mBuffPos, 255);
         if (len == 0) {
-            waitForReadyRead(500);
+            mSocket->waitForReadyRead(500);
             continue;
         }
         if (len < 0) { // error
@@ -57,11 +58,12 @@ QByteArray PrinterSocket::readLine()
         if (pos != NULL)
             return returnLine(pos);
     }
+    return "";
 }
 
-qint64 PrinterSocket::bytesAvailable() const
+qint64 PrinterBufferReader::bytesAvailable() const
 {
-    return QTcpSocket::bytesAvailable() + (mBuffPos - mBuff);
+    return mSocket->bytesAvailable() + (mBuffPos - mBuff);
 }
 
 PrintRunner::PrintRunner(SynchronizedQueue& queue, PrinterItemConstPtr& printerItem, int maxQueueSize) :
@@ -69,13 +71,12 @@ PrintRunner::PrintRunner(SynchronizedQueue& queue, PrinterItemConstPtr& printerI
 {
 }
 
-void PrintRunner::readFromSocket()
+void PrintRunner::readBuffer()
 {
-    while((mSocket->state() == QAbstractSocket::ConnectedState && mRunning))
+    while((mBufferReader->socket()->state() == QAbstractSocket::ConnectedState && mRunning))
     {
-        hOutDebug(0,"3")
         bool ff = false;
-        QByteArray line = mSocket->readLine();
+        QByteArray line = mBufferReader->readLine();
         int len = line.length();
         if (len == 0) {  // no data
             continue; 
@@ -85,14 +86,13 @@ void PrintRunner::readFromSocket()
             line.data()[len-1] = '\n';
             ff = true;
         }
-        hOutDebug(0, "line:" <<  line.toStdString().c_str());
 
         if ( (len>0) &&  ((line[len-1] == '\n') || (line[len-1] == '\r')) )
             line.data()[len-1] = '\0';
 
         if (line.length() != 0)
         {
-            hOutDebug(5,":" << line.data());
+            hOutDebug(0,":" << line.data());
             if (ff) mQueue.push_back("\f"); // generate eject
 #ifdef Q_OS_DARWIN
             else mQueue.push_back((line));
@@ -108,16 +108,16 @@ void PrintRunner::readFromSocket()
 
 void PrintRunner::waitForConnected()
 {
-    while(mSocket->state() != QAbstractSocket::ConnectedState && mRunning)
+    while(mBufferReader->socket()->state() != QAbstractSocket::ConnectedState && mRunning)
     {
-        hOutDebug(3,"not connected:" << mSocket->state());
-        if (mSocket->state() == QAbstractSocket::UnconnectedState)
+        hOutDebug(3,"not connected:" << mBufferReader->socket()->state());
+        if (mBufferReader->socket()->state() == QAbstractSocket::UnconnectedState)
         {
-            mSocket->connectToHost(QHostAddress(mPrinterItem->mIp), mPrinterItem->mPort);
-            mSocket->waitForConnected(1000);
-            if(mRunning && mSocket->state() != QAbstractSocket::ConnectedState)
+            mBufferReader->socket()->connectToHost(QHostAddress(mPrinterItem->mIp), mPrinterItem->mPort);
+            mBufferReader->socket()->waitForConnected(1000);
+            if(mRunning && mBufferReader->socket()->state() != QAbstractSocket::ConnectedState)
                 QThread::msleep(200);
-            hOutDebug(3, "error:" << mSocket->errorString().toStdString());
+            hOutDebug(3, "error:" << mBufferReader->socket()->errorString().toStdString());
         }
         else
         {
@@ -128,12 +128,11 @@ void PrintRunner::waitForConnected()
 
 void PrintRunner::run()
 {
-    mSocket = QSharedPointer<PrinterSocket>(new PrinterSocket());
+    mBufferReader = QSharedPointer<PrinterBufferReader>(new PrinterBufferReader());
     mRunning = true;
 
     qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
-    mSocket->moveToThread(this);
-    connect(mSocket.data(), SIGNAL(stateChanged(QAbstractSocket::SocketState)),this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+    connect(mBufferReader->socket(), SIGNAL(stateChanged(QAbstractSocket::SocketState)),this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
 
     while(mRunning)
     {
@@ -147,8 +146,8 @@ void PrintRunner::run()
         emit connected();
         hOutDebug(3,"appl connected");
 
-        readFromSocket();
-        hOutDebug(3, "state:" << mSocket->state() << " running: " << (mRunning? "y" : "n") );
+        readBuffer();
+        hOutDebug(0, "state:" << mBufferReader->socket()->state() << " running: " << (mRunning? "y" : "n") );
         emit disconnected();
         if (timer.elapsed() < 1000)
         {
@@ -157,7 +156,7 @@ void PrintRunner::run()
     }
 
     emit stoppedWaiting();
-    mSocket->close();
+    mBufferReader->socket()->close();
 }
 
 void PrintRunner::socketStateChanged(QAbstractSocket::SocketState state)
@@ -183,4 +182,5 @@ void PrintRunner::socketStateChanged(QAbstractSocket::SocketState state)
 void PrintRunner::stop()
 {
     mRunning = false;
+    mBufferReader->close();
 }
