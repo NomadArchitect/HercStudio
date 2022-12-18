@@ -484,11 +484,11 @@ void Preferences::defaultDecolations()
 {
     mSettings->beginGroup("Decolations");
     mSettings->remove("mvs38");
-    mSettings->setValue("mvs38/Accounting/Date/Column","68");
-    mSettings->setValue("mvs38/Accounting/Date/Length","21");
+    mSettings->setValue("mvs38/Accounting/Date/Column","80");
+    mSettings->setValue("mvs38/Accounting/Date/Length","9");
     mSettings->setValue("mvs38/Accounting/Date/Line","30");
-    mSettings->setValue("mvs38/Accounting/Jobid/Column","19");
-    mSettings->setValue("mvs38/Accounting/Jobid/Length","4");
+    mSettings->setValue("mvs38/Accounting/Jobid/Column","15");
+    mSettings->setValue("mvs38/Accounting/Jobid/Length","8");
     mSettings->setValue("mvs38/Accounting/Jobid/Line","30");
     mSettings->setValue("mvs38/Accounting/Jobname/Column","25");
     mSettings->setValue("mvs38/Accounting/Jobname/Length","8");
