@@ -192,8 +192,9 @@ bool PdfPrinter::doPrint(QByteArray &line)
         mPen->setFont(QFont("Mono",mFontSize));
 #endif
     }
-    if (mPdf != NULL)
-        mPen->drawText(mPdf->logicalDpiX()/2,mMargin+mCurLine*mPixelsPerLine, line);
+    if (mPdf != NULL) {
+        mPen->drawText(mPdf->logicalDpiX()/2,mMargin+mCurLine*mPixelsPerLine, line.toStdString().c_str());
+    }
 
     hOutDebug(3, "line " << mCurLine << " page " << mCurPage << " " << line.data());
 
