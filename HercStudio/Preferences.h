@@ -47,7 +47,8 @@ public:
 	FontSize = 4,
 	FontVariation = 5,
 	LogTimestamp = 6,
-	RegsViews = 7
+	RegsViews = 7,
+    runDir = 8
 	};
 	enum general
 	{
@@ -389,7 +390,8 @@ public:
         IplDevice=19,
         LastPrinterName=20,
         BalloonDecolation=21,
-        BalloonStationery=22
+        BalloonStationery=22,
+        RunDir=23
 	};
 
 	enum FontObject
@@ -437,6 +439,10 @@ public:
 	// log directory
 	void setLogsDir(const std::string& logsDir) ;
 	std::string logsDir() const;
+
+    // run directory
+    void setRunDir(const std::string& logsDir) ;
+    std::string runDir() const;
 
 	// font name
 	void setFontName( FontObject fontObject, const std::string& fontName) ;

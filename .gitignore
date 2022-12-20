@@ -16,3 +16,6 @@ HerculesStudio/Makefile*
 
 #vscode
 .vscode*
+
+#qtCreator generated files
+CMakeLists.txt.user

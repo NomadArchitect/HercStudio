@@ -773,7 +773,12 @@ void MainWindow::powerOn()
 	{
         hOutDebug(5,"not recovery");
 		mHerculesExecutor = new HerculesExecutor(*this);
-        herculesPid = mHerculesExecutor->run(configName, Preferences::getInstance().hercDir());
+        auto runDir = Preferences::getInstance().runDir();
+        if (runDir.length() == 0)
+        {
+            runDir = Preferences::getInstance().hercDir();
+        }
+        herculesPid = mHerculesExecutor->run(configName, Preferences::getInstance().runDir());
 		mDevicesRecovery = false;
 	}
 	else

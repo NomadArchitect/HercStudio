@@ -52,6 +52,7 @@ public slots:
 	void okPressed();
 	void cancelPressed();
 	void hercDirPressed();
+    void runDirPressed();
 	void configDirPressed();
 	void logsDirPressed();
 	void mipsToggled();

@@ -49,6 +49,7 @@ PreferencesWin::PreferencesWin( const std::string& currentPath, QWidget *parent)
 	ui.hercDirLineEdit->setText(mPreferences->hercDir().c_str());
 	ui.configDirLineEdit->setText(mPreferences->configDir().c_str());
 	ui.logsDirLineEdit->setText(mPreferences->logsDir().c_str());
+    ui.runDirLineEdit->setText(mPreferences->runDir().c_str());
 
 	QStringList& list = Fonts::getInstance().getList();
 
@@ -143,6 +144,7 @@ void PreferencesWin::okPressed()
 	mPreferences->setHercDir(ui.hercDirLineEdit->text().toStdString());
 	mPreferences->setConfigDir(ui.configDirLineEdit->text().toStdString());
 	mPreferences->setLogsDir(ui.logsDirLineEdit->text().toStdString());
+    mPreferences->setRunDir(ui.runDirLineEdit->text().toStdString());
 
 
 	mPreferences->setFontName(Preferences::LogFontObject, ui.fontNameLog->currentText().toStdString());
@@ -228,6 +230,16 @@ void PreferencesWin::logsDirPressed()
 		QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks | QFileDialog::DontUseNativeDialog);
 	if (s.length() > 0)
 	  ui.logsDirLineEdit->setText(s);
+}
+
+void PreferencesWin::runDirPressed()
+{
+    QString s = QFileDialog::getExistingDirectory(this,
+        tr("Run directory"),
+        ui.runDirLineEdit->text(),
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks | QFileDialog::DontUseNativeDialog);
+    if (s.length() > 0)
+      ui.runDirLineEdit->setText(s);
 }
 
 void PreferencesWin::mipsToggled()

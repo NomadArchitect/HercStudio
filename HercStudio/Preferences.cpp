@@ -63,7 +63,8 @@ const char * Preferences::sKeywords[] = {
     "IplDevice",
     "LastPrinterName",
     "BallonDecolation",
-    "BaloonStationery"};
+    "BaloonStationery",
+    "RunDir"};
 
 const char * Preferences::sRegsViews[] = {
 		"ViewGR32",
@@ -162,6 +163,7 @@ Preferences& Preferences::getInstance()
 Pref(hercDir,HerculesDir)
 Pref(configDir_,ConfigurationDir)
 Pref(logsDir,LogsDir)
+Pref(runDir,RunDir)
 PrefBool(logTimestamp,LogTimestamp)
 PrefBool(splitLog,SplitLog)
 PrefBool(autosaveLog, AutosaveLog)
@@ -175,9 +177,11 @@ Pref(lastPrinterName, LastPrinterName)
 PrefBool(balloonDecolation, BalloonDecolation)
 PrefBool(balloonStationery, BalloonStationery)
 
+
 PrefSet(setHercDir,HerculesDir)
 PrefSet(setConfigDir,ConfigurationDir)
 PrefSet(setLogsDir,LogsDir)
+PrefSet(setRunDir,RunDir)
 PrefSetInt(setPswMode, PswMode, Psw::PswMode)
 PrefSetBool(setLogTimestamp, LogTimestamp)
 PrefSetBool(setSplitLog, SplitLog)
