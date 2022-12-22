@@ -49,16 +49,14 @@ void StatusRunner::run()
 	return;
 #else
 	QFile& statusFile = NamedPipe::getInstance().getHerculesStatus();
-	QByteArray buff;
-	buff.resize(512);
 	mRunning = true;
     bool lineRead = false;
     int startupCounter = 0;
 
 	while(mRunning)
 	{
-		int size;
-		if ((size = statusFile.readLine(buff.data(),512)) <= 0)
+		QByteArray line = statusFile.readLine(512);
+		if (line.length() == 0)
 		{
             // we wait up to 2 seconds for data to appear in the log
             if (!lineRead)
@@ -73,8 +71,8 @@ void StatusRunner::run()
 			break;
 		}
         lineRead = true;
-		buff[size-1] = '\0';
-		mQueue.push_back(buff);
+		line.truncate(line.indexOf('\n'));
+		mQueue.push_back(line);
 		emit newData();
 	}
 #endif

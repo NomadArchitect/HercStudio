@@ -64,7 +64,7 @@ public:
 	void 				addNonDev(SystemConfigLine * configLine);
 	void 				addDev(DeviceConfigLine * configLine);
 	void 				appendNewLines();
-        const 				ConfigLine * locateLine(const std::string& keyword, bool create=false, bool synonyms=true);
+    const 				ConfigLine * locateLine(const std::string& keyword, bool create=false, bool synonyms=true);
 	void 				deleteLine(int index);
 	inline int 			getLastSys() { return mLastSys; };
 	bool 				changed();

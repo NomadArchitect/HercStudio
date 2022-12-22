@@ -27,7 +27,7 @@
 #ifndef PSW_H_
 #define PSW_H_
 
-#include <StatusUpdateCollector.h>
+#include "StatusUpdateCollector.h"
 
 #include <QWidget>
 #include <QLabel>

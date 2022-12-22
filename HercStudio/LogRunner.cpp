@@ -51,16 +51,14 @@ void LogRunner::run()
 	return;
 #else
 	QFile& logFile = NamedPipe::getInstance().getHerculesLogfile();
-	QByteArray buff;
-	buff.resize(512);
 	mRunning = true;
     bool lineRead = false;
     int startupCounter = 0;
 
 	while(mRunning)
 	{
-		int size;
-		if ((size = logFile.readLine(buff.data(),512)) <= 0)
+		QByteArray line = logFile.readLine(513);
+		if (line.length() == 0)
 		{
             // we wait up to 2 seconds for data to appear in the log
             if (!lineRead)
@@ -77,8 +75,7 @@ void LogRunner::run()
 		}
 
         lineRead = true;
-		buff[size-1] = '\0';
-		mQueue.push_back(buff);
+		mQueue.push_back(line);
 		emit newData();
 		while (mQueue.size() > mMaxQueueSize) // do not flood the queue
 			QThread::msleep(100); // yield
