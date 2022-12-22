@@ -64,7 +64,8 @@ const char * Preferences::sKeywords[] = {
     "LastPrinterName",
     "BallonDecolation",
     "BaloonStationery",
-    "RunDir"};
+    "RunDir",
+    "LdLib"};
 
 const char * Preferences::sRegsViews[] = {
 		"ViewGR32",
@@ -164,6 +165,7 @@ Pref(hercDir,HerculesDir)
 Pref(configDir_,ConfigurationDir)
 Pref(logsDir,LogsDir)
 Pref(runDir,RunDir)
+Pref(ldLib, LdLib)
 PrefBool(logTimestamp,LogTimestamp)
 PrefBool(splitLog,SplitLog)
 PrefBool(autosaveLog, AutosaveLog)
@@ -182,6 +184,7 @@ PrefSet(setHercDir,HerculesDir)
 PrefSet(setConfigDir,ConfigurationDir)
 PrefSet(setLogsDir,LogsDir)
 PrefSet(setRunDir,RunDir)
+PrefSet(setLdLib,LdLib)
 PrefSetInt(setPswMode, PswMode, Psw::PswMode)
 PrefSetBool(setLogTimestamp, LogTimestamp)
 PrefSetBool(setSplitLog, SplitLog)

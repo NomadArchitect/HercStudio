@@ -391,7 +391,8 @@ public:
         LastPrinterName=20,
         BalloonDecolation=21,
         BalloonStationery=22,
-        RunDir=23
+        RunDir=23,
+        LdLib=24
 	};
 
 	enum FontObject
@@ -444,7 +445,11 @@ public:
     void setRunDir(const std::string& logsDir) ;
     std::string runDir() const;
 
-	// font name
+    // LD_LIBRARY_PATH directory
+    void setLdLib(const std::string& logsDir) ;
+    std::string ldLib() const;
+
+    // font name
 	void setFontName( FontObject fontObject, const std::string& fontName) ;
 	std::string fontName (FontObject fontObject) const;
 

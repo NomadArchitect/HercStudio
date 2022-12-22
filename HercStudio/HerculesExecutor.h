@@ -36,7 +36,7 @@ public:
   HerculesExecutor(QMainWindow& mainWindow, int pid=0);
   virtual ~HerculesExecutor();
 
-  int run(std::string configName, std::string herculesPath);
+  int run(std::string configName, std::string herculesPath, std::string runPath, std::string libDir);
   void issueCommand(const char * command);
   void issueFormattedCommand(const char *format, const char * arg1);
   void issueFormattedCommand(const char *format, const int arg1);

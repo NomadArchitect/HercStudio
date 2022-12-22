@@ -53,7 +53,7 @@ HerculesExecutor::~HerculesExecutor()
 }
 
 #ifndef hFramework
-int HerculesExecutor::run(std::string configName, std::string herculesPath)
+int HerculesExecutor::run(std::string configName, std::string herculesPath, std::string runDir, std::string libDir)
 {
 	int pid;
 	int rc =0;
@@ -63,7 +63,21 @@ int HerculesExecutor::run(std::string configName, std::string herculesPath)
 		return -1;
 	if (pid == 0)
 	{
-		std::string hercules = herculesPath;
+           // setup LD_LIBRARY_PATH if needed
+		if (libDir.length() > 0) 
+		{
+			static char *base_environ[2] = {nullptr, nullptr};
+			static const char ldVar[] = {"LD_LIBRARY_PATH="};
+			std::string envStr = ldVar + libDir;
+			char *env =
+				(char *)malloc(sizeof(ldVar) + libDir.length() + 1);
+			strncpy(env, envStr.c_str(),
+					sizeof(ldVar) + libDir.length() + 1);
+			base_environ[0] = env;
+			environ = base_environ;
+		}
+
+        std::string hercules = herculesPath;
 		if (herculesPath.length() != 0 )
 			hercules += "/";
 		hercules += "hercules";
@@ -80,10 +94,9 @@ int HerculesExecutor::run(std::string configName, std::string herculesPath)
 
 		rc = dup2(fileno(fileIn),fileno(stdin));
 		if (rc != 0) perror("stdin");
-
-		if (herculesPath.length() != 0)
+		if (runDir.length() > 0)
 		{
-			rc = chdir(herculesPath.c_str());
+			rc = chdir(runDir.c_str());
 			if (rc != 0)
 			{
 				std::cout << "***************************************************************" << "\n"
@@ -163,7 +176,7 @@ void HerculesExecutor::issueFormattedCommand(const char * format, int arg1)
 
 
 #else  // hFramework
-int HerculesExecutor::run(std::string configName, std::string herculesPath)
+int HerculesExecutor::run(std::string configName, std::string herculesPath, std::string runPath, std::string libDir)
 {
 	mProcess=NULL;
 	std::string prog = herculesPath;
@@ -183,7 +196,7 @@ int HerculesExecutor::run(std::string configName, std::string herculesPath)
 	#endif
 	if (mProcess->state() != QProcess::Running && mProcess->state() != QProcess::Starting)
 		return -1;
-	Q_PID pid = mProcess->pid();
+	auto pid = mProcess->processId();
 	if (pid != 0)
 		return 0;
 	else

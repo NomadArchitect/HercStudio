@@ -778,7 +778,7 @@ void MainWindow::powerOn()
         {
             runDir = Preferences::getInstance().hercDir();
         }
-        herculesPid = mHerculesExecutor->run(configName, Preferences::getInstance().runDir());
+        herculesPid = mHerculesExecutor->run(configName, Preferences::getInstance().hercDir(), runDir, Preferences::getInstance().ldLib());
 		mDevicesRecovery = false;
 	}
 	else

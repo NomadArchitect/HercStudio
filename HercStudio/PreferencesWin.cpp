@@ -44,12 +44,14 @@ PreferencesWin::PreferencesWin( const std::string& currentPath, QWidget *parent)
 	connect(ui.hercDirButton, SIGNAL(pressed()), this, SLOT(hercDirPressed()));
 	connect(ui.configDirButton, SIGNAL(pressed()), this, SLOT(configDirPressed()));
 	connect(ui.logsDirButton, SIGNAL(pressed()), this, SLOT(logsDirPressed()));
+    connect(ui.runDirButton, SIGNAL(pressed()), this, SLOT(runDirPressed()));
 	connect(ui.mipsGaugeButton, SIGNAL(toggled(bool)), this, SLOT(mipsToggled()));
 
 	ui.hercDirLineEdit->setText(mPreferences->hercDir().c_str());
 	ui.configDirLineEdit->setText(mPreferences->configDir().c_str());
 	ui.logsDirLineEdit->setText(mPreferences->logsDir().c_str());
     ui.runDirLineEdit->setText(mPreferences->runDir().c_str());
+    ui.ldLibLineEdit->setText(mPreferences->ldLib().c_str());
 
 	QStringList& list = Fonts::getInstance().getList();
 
@@ -145,6 +147,7 @@ void PreferencesWin::okPressed()
 	mPreferences->setConfigDir(ui.configDirLineEdit->text().toStdString());
 	mPreferences->setLogsDir(ui.logsDirLineEdit->text().toStdString());
     mPreferences->setRunDir(ui.runDirLineEdit->text().toStdString());
+    mPreferences->setLdLib(ui.ldLibLineEdit->text().toStdString());
 
 
 	mPreferences->setFontName(Preferences::LogFontObject, ui.fontNameLog->currentText().toStdString());
