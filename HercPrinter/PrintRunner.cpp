@@ -92,7 +92,7 @@ void PrintRunner::readBuffer()
 
         if (line.length() != 0)
         {
-            hOutDebug(0,":" << line.data());
+            hOutDebug(5,":" << line.data());
             if (ff) mQueue.push_back("\f"); // generate eject
 #ifdef Q_OS_DARWIN
             else mQueue.push_back((line));
@@ -147,7 +147,7 @@ void PrintRunner::run()
         hOutDebug(3,"appl connected");
 
         readBuffer();
-        hOutDebug(0, "state:" << mBufferReader->socket()->state() << " running: " << (mRunning? "y" : "n") );
+        hOutDebug(3, "state:" << mBufferReader->socket()->state() << " running: " << (mRunning? "y" : "n") );
         emit disconnected();
         if (timer.elapsed() < 1000)
         {

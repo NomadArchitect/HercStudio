@@ -30,14 +30,6 @@
 #include <QStatusBar>
 #include <iostream>
 
-//STATUS=CPU0000 PSW=00000000 00000000 0000000000000000 M.W..... instcount=0
-//STATUS=CP00 PSW=00000000 00000000 0000000000000000 M....... instcount=0
-struct pswOffsets {
-	int pswStart;
-	int pswEnd;
-
-};
-
 Psw::Psw( QStatusBar * statusBar)
 : mHasStatusBar(false), mVisible(false), mCpu(NULL)
 {

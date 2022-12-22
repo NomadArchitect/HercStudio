@@ -12,12 +12,13 @@ BasicPrinter::BasicPrinter()
 
 
 GenericPagePrinter::GenericPagePrinter(StationeryPtr &stationery, float scaling) :
-    mStationery(stationery),  mPen(NULL), mLogo(QPixmap(2200,1200)), mLogoWidth(0), mScaling(scaling)
+    mStationery(stationery),  mPen(), mLogo(QPixmap(2200,1200)), mLogoWidth(0), mScaling(scaling)
 {
     mDecolation.clear();
     mHeightInPixels = 4000;
     mWidthInPixels = 1200;
     mLeftMargin = 0;
+    mMargin = 0;
     mBottomMargin = 0;
     mLogicalDpiX = mLogicalDpiY = 1200;
 }
@@ -56,12 +57,12 @@ void GenericPagePrinter::preparePage(bool eject)
             int barsB = mBarsColor[2];
             mPen->fillRect(mLeftMargin, i, mWidthInPixels-2*mLeftMargin, stripe, QColor(barsR, barsG, barsB));
 
-            if (mStationery->mDecorated)
-            {
-                mPen->setPen(QPen(QColor(barsR-0x20, barsG-0x20, barsB-0x20), penWidth));
-                mPen->drawLine(mLeftMargin,i,mWidthInPixels-mLeftMargin,i);
-                mPen->drawLine(mLeftMargin,i+stripe,mWidthInPixels-mLeftMargin,i+stripe);
-            }
+            // if (mStationery->mDecorated)
+            // {
+            //     mPen->setPen(QPen(QColor(barsR-0x20, barsG-0x20, barsB-0x20), penWidth));
+            //     mPen->drawLine(mLeftMargin,i,mWidthInPixels-mLeftMargin,i);
+            //     mPen->drawLine(mLeftMargin,i+stripe,mWidthInPixels-mLeftMargin,i+stripe);
+            // }
         }
     }
 
@@ -70,7 +71,7 @@ void GenericPagePrinter::preparePage(bool eject)
         int barsR = mBarsColor[0];
         int barsG = mBarsColor[1];
         int barsB = mBarsColor[2];
-        mPen->setPen(QPen(QColor(barsR, barsG, barsB), penWidth*(mScaling==1.0 ? 1.0 : 0.1)));
+        mPen->setPen(QPen(QColor(barsR, barsG, barsB), penWidth*(mScaling==1.0 ? 1.0 : 0.2)));
         mPen->drawRect(mLeftMargin, mMargin, mWidthInPixels-2*mLeftMargin, stripe*(alternatingStripes));//heightInPixels-leftMargin);
     }
 
