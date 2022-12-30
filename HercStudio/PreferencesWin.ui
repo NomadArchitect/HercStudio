@@ -900,6 +900,32 @@
     <string>Cancel</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="exportPreferencesButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>640</y>
+     <width>171</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Export To File...</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="importPreferencesButton">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>640</y>
+     <width>161</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Import From File...</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -193,8 +193,6 @@ void StationeryDialog::paperSizeChanged(QString value)
             ui->customSizeW->setText(paperWidthMm[ui->paperSizeComboBox->currentIndex()]);
             ui->customSizeH->setText(paperHeightMm[ui->paperSizeComboBox->currentIndex()]);
         }
-        ui->customSizeH->setEnabled(false);
-        ui->customSizeW->setEnabled(false);
         ui->orientationGroupBox->setEnabled(true);
     }
     repaint();
@@ -362,8 +360,6 @@ void StationeryDialog::populate()
         ui->customSizeH->setEnabled(true);
         ui->customSizeW->setEnabled(true);
     }
-    barsColorChanged(ui->barsColorComboBox->currentText());
-    paperSizeChanged(st->mPaperSize);
     bool disabled = builtinStationery(ui->stationeryNameComboBox->currentText());
     setProtected(disabled);
     hOutDebug(3,ui->paperSizeComboBox->currentText().toUtf8().data());

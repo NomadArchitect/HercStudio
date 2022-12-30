@@ -7,7 +7,7 @@
  *  Copyright (c) 2009-2013 Jacob Dekel
  *  $Id$
  *
- *	This object manages one line of the configuration file
+ *	This object manages one line of the configuration dialog
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

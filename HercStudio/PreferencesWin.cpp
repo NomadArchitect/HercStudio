@@ -27,6 +27,8 @@
 #include "Fonts.h"
 
 #include <QFileDialog>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 #include <iostream>
 
@@ -46,7 +48,14 @@ PreferencesWin::PreferencesWin( const std::string& currentPath, QWidget *parent)
 	connect(ui.logsDirButton, SIGNAL(pressed()), this, SLOT(logsDirPressed()));
     connect(ui.runDirButton, SIGNAL(pressed()), this, SLOT(runDirPressed()));
 	connect(ui.mipsGaugeButton, SIGNAL(toggled(bool)), this, SLOT(mipsToggled()));
+	connect(ui.exportPreferencesButton, SIGNAL(pressed()), this, SLOT(exportToFile()));
+	connect(ui.importPreferencesButton, SIGNAL(pressed()), this, SLOT(importFromFile()));
 
+	setupUI();
+}
+
+void PreferencesWin::setupUI()
+{
 	ui.hercDirLineEdit->setText(mPreferences->hercDir().c_str());
 	ui.configDirLineEdit->setText(mPreferences->configDir().c_str());
 	ui.logsDirLineEdit->setText(mPreferences->logsDir().c_str());
@@ -143,6 +152,15 @@ PreferencesWin::~PreferencesWin()
 
 void PreferencesWin::okPressed()
 {
+	setPreferences();
+	mPreferences->write();
+	setVisible(false); // do not hide animation
+	emit preferencesChanged();
+	close();
+}
+
+void PreferencesWin::setPreferences()
+{
 	mPreferences->setHercDir(ui.hercDirLineEdit->text().toStdString());
 	mPreferences->setConfigDir(ui.configDirLineEdit->text().toStdString());
 	mPreferences->setLogsDir(ui.logsDirLineEdit->text().toStdString());
@@ -195,11 +213,6 @@ void PreferencesWin::okPressed()
 	mPreferences->setAnimate(ui.AnimateCheckBox->isChecked());
 
 	mPreferences->setDarkBackground(ui.ThemeComboBox->currentIndex() == 1);
-
-	mPreferences->write();
-	setVisible(false); // do not hide animation
-	emit preferencesChanged();
-	close();
 }
 
 void PreferencesWin::cancelPressed()
@@ -248,4 +261,62 @@ void PreferencesWin::runDirPressed()
 void PreferencesWin::mipsToggled()
 {
 	ui.GreenCheckBox->setEnabled(!ui.mipsGaugeButton->isChecked());
+}
+
+void PreferencesWin::exportToFile()
+{
+	QString s = QFileDialog::getSaveFileName(
+						this, "Export Preferences", "",
+						tr("json files (*.json);;All files(*)"),
+						nullptr, QFileDialog::DontUseNativeDialog);
+	if (s.length() == 0)
+		return;
+	int pos = s.length()-5;
+	if ( (s.mid(pos,5) != ".json") )
+		s += ".json";
+
+	setPreferences();
+	QJsonObject jobj;
+	QString jsonSettings = Preferences::exportToJson(mPreferences);
+	QFile saveFile(s);
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+        return;
+    }
+    saveFile.write(jsonSettings.toLatin1());
+	saveFile.close();
+
+    return ;
+}
+
+#include "Stationery.h"
+void PreferencesWin::importFromFile()
+{
+	QString s = QFileDialog::getOpenFileName(
+			this, tr("Import Preferences"),
+            "",
+			tr("json files (*.json);;All files(*)"),
+			nullptr, 
+			QFileDialog::DontUseNativeDialog).toUtf8().data();
+	if (s.length() == 0)
+		return;
+
+	QFile loadFile(s);
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+        return;
+    }
+
+    QByteArray saveData = loadFile.readAll();
+	loadFile.close();
+
+	QJsonParseError err;
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData, &err));
+	QJsonObject jobj = loadDoc.object();
+	auto str = loadDoc.toJson().toStdString();
+	auto newSettings = Preferences::importFromJson(str);
+	mPreferences->replaceSettings(newSettings);
+	setupUI();
+    return ;
 }

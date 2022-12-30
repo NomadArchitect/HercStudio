@@ -32,6 +32,9 @@
 
 #include <QDir>
 #include <QSettings>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QFileDialog>
 
 #include <iostream>
 #include <sstream>
@@ -298,6 +301,71 @@ const char * Preferences::fontObjectToString(FontObject fontObject) const
 void Preferences::write()
 {
 
+}
+
+QJsonObject Preferences::exportOneKey(QString key, int depth)
+{
+	QJsonObject retObject;
+	QString prevGroup = "";
+	auto groups = mSettings->childGroups();
+	for (auto s : groups) {
+		mSettings->beginGroup(s);
+		auto jGroup = exportOneKey(s, depth+1);
+		mSettings->endGroup();
+		retObject[s] = jGroup;
+	}
+	auto keys = mSettings->childKeys();
+	for (auto s : keys) {
+		retObject[s] = mSettings->value(s).toString();
+	}
+	return retObject;
+}
+
+QString Preferences::exportToJson(Preferences *preferences)
+{
+	auto mSettings = preferences->mSettings;
+	auto keys = mSettings->allKeys();
+	QString prevGroup = "";
+	QJsonObject jObject = preferences->exportOneKey("", 0);
+	QJsonDocument jdoc(jObject);
+	return jdoc.toJson();
+}
+
+void Preferences::importObjectFromJson(QJsonObject& jObject, QSettings *retSettings)
+{
+  for (auto jkey : jObject.keys()) {
+	if (jObject[jkey].isObject()) {
+			retSettings->beginGroup(jkey);
+			auto subObj = jObject[jkey].toObject();
+			importObjectFromJson(subObj, retSettings);
+			retSettings->endGroup();
+			continue;
+	}
+    auto subIter = jObject.find(jkey);
+	QString value;
+    if (subIter.value().isString()) {
+      value = subIter.value().toString();
+    } else if (subIter.value().isBool()) {
+      value = subIter.value().toBool() ? "true" : "false";
+    } else {
+		abort();
+	}
+	retSettings->setValue(jkey, value);
+  }
+}
+
+QSettings * Preferences::importFromJson(std::string& jsonSettings)
+{
+	std::string flat = jsonSettings;
+	std::replace(flat.begin(), flat.end(), '\n', ' ');
+	QByteArray jbytes(QByteArray(flat.c_str()));
+	QJsonDocument jdoc = QJsonDocument::fromJson(jbytes, nullptr);
+	QJsonObject jObject = jdoc.object();
+
+	QSettings *retSettings = new QSettings();
+	// recursively add all elements
+	importObjectFromJson(jObject, retSettings);
+	return retSettings;
 }
 
 Preferences::Themes Preferences::theme() const

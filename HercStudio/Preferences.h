@@ -427,6 +427,12 @@ public:
 
 	void write();
 
+	static QString exportToJson(Preferences* preferences);
+	static QSettings *importFromJson(std::string & fileName);
+	void replaceSettings(QSettings *newSettings) {
+		mSettings = newSettings;
+	}
+
 	// hercules directory
 	void setHercDir(const std::string& hercDir);
 	std::string  hercDir() const;
@@ -558,6 +564,8 @@ private:
 	std::string mVolatileConfigDir;
 
     const char * fontObjectToString(FontObject fontObject) const;
+	static void importObjectFromJson(QJsonObject& jobj, QSettings *s);
+	QJsonObject exportOneKey(QString key, int depth);
     void defaultDecolations();
     void defaultStationery();
 	void convert();

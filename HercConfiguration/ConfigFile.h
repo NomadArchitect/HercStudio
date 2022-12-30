@@ -78,7 +78,7 @@ private:
 		TextEdit
 	};
 
-	std::string 					mFileName;
+  std::string 	     				mFileName;
   FileArray 						mFileArray;
   std::vector<SystemConfigLine> 	mNewLines;
   std::vector<DeviceConfigLine> 	mNewDeviceLines;

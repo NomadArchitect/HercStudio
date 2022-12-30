@@ -42,6 +42,8 @@ public:
     std::string getHercDir();
 
 private:
+    void setPreferences();
+    void setupUI();
     Ui::PreferencesWinClass ui;
 
     std::string mCurrentPath;
@@ -56,6 +58,8 @@ public slots:
 	void configDirPressed();
 	void logsDirPressed();
 	void mipsToggled();
+    void exportToFile();
+    void importFromFile();
 
 signals:
 	void preferencesChanged();
